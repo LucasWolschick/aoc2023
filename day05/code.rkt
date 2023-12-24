@@ -56,3 +56,12 @@
 (define (part-1 file)
   (let-values ([(seeds maps) (parse-maps (file->lines file))])
     (apply min (map-seeds-to-locations seeds maps))))
+
+(define (to-seed-ranges seeds)
+  (if (empty? seeds)
+      '()
+      (append (range (car seeds) (+ (car seeds) (cadr seeds))) (to-seed-ranges (cddr seeds)))))
+
+(define (part-2 file)
+  (let-values ([(seeds maps) (parse-maps (file->lines file))])
+    (apply min (map-seeds-to-locations (to-seed-ranges seeds) maps))))
